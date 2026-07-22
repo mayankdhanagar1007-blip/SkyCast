@@ -1,0 +1,246 @@
+/* ============================================
+   DESIGN TOKENS
+   Theme: "Weatherglass" — a quiet instrument panel
+   for reading the sky, like an old barometer.
+   ============================================ */
+:root {
+  --bg-top: #141b2d;      /* deep dusk navy */
+  --bg-bottom: #2c3e5c;   /* slate blue-grey */
+  --panel: rgba(20, 27, 45, 0.55);
+
+  --text-primary: #eef1f7;   /* cream white */
+  --text-muted: #8b96ad;     /* soft slate */
+  --accent-sun: #f2a541;     /* warm gold */
+  --accent-alert: #e4572e;   /* rust — errors only */
+
+  --hairline: rgba(238, 241, 247, 0.14);
+
+  --font-display: "Fraunces", serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background: radial-gradient(circle at 50% -10%, var(--bg-bottom), var(--bg-top) 65%);
+}
+
+/* ============================================
+   PANEL (the instrument itself)
+   ============================================ */
+.panel {
+  width: 100%;
+  max-width: 380px;
+  background: var(--panel);
+  border: 1px solid var(--hairline);
+  border-radius: 18px;
+  padding: 28px 26px 22px;
+  backdrop-filter: blur(6px);
+}
+
+/* ---- Search row ---- */
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--hairline);
+  padding-bottom: 14px;
+  margin-bottom: 22px;
+}
+
+#city-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.08em;
+  padding: 6px 2px;
+}
+
+#city-input::placeholder {
+  color: var(--text-muted);
+}
+
+.search-row button {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  transition: color 0.15s ease;
+}
+
+.search-row button:hover,
+.search-row button:focus-visible {
+  color: var(--accent-sun);
+}
+
+/* ---- Status (loading / error) ---- */
+.status {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 30px 0;
+}
+
+.status.error {
+  color: var(--accent-alert);
+}
+
+/* ---- Result ---- */
+.result {
+  animation: fade-in 0.35s ease;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.location {
+  margin: 0 0 6px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.muted {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 10px 0 2px;
+}
+
+.icon {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  color: var(--accent-sun);
+}
+
+.icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.temp-block {
+  display: flex;
+  align-items: flex-start;
+  line-height: 1;
+}
+
+.temp {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 68px;
+  letter-spacing: -0.02em;
+}
+
+.unit {
+  font-family: var(--font-display);
+  font-size: 24px;
+  margin-top: 6px;
+  color: var(--text-muted);
+}
+
+.condition {
+  margin: 2px 0 20px;
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+/* ---- Instrument readout row ---- */
+.readout {
+  display: flex;
+  align-items: stretch;
+  border-top: 1px solid var(--hairline);
+  padding-top: 16px;
+}
+
+.reading {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: center;
+}
+
+.reading-label {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+
+.reading-value {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.divider {
+  width: 1px;
+  background: var(--hairline);
+  margin: 2px 0;
+}
+
+.updated {
+  margin: 18px 0 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  text-align: center;
+  opacity: 0.7;
+}
+
+/* ---- Accessibility: visible keyboard focus ---- */
+#city-input:focus-visible,
+.search-row button:focus-visible {
+  outline: 2px solid var(--accent-sun);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .result {
+    animation: none;
+  }
+}
+
+/* ---- Small screens ---- */
+@media (max-width: 400px) {
+  .temp {
+    font-size: 56px;
+  }
+  .icon {
+    width: 46px;
+    height: 46px;
+  }
+}
