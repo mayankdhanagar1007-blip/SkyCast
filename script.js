@@ -149,4 +149,4 @@ form.addEventListener("submit", (e) => {
 });
 
 // --- Load a default city on first visit so the panel isn't empty ---
-searchCity("London");
+searchCity("New Delhi");
